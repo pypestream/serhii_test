@@ -19,7 +19,7 @@ jobs:
           node-version: 18
 
       - name: Use auto-releases
-        uses: pypestream/auto-releases@next
+        uses: schupryna/auto-releases@next
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           slack-token: ${{ secrets.SLACK_TOKEN }}
