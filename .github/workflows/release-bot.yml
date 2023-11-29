@@ -21,7 +21,7 @@ jobs:
       - name: Use auto-releases
         uses: schupryna/auto-releases@next
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.GH_TOKEN }}
           slack-token: ${{ secrets.SLACK_TOKEN }}
           slack-channels: "manager-and-admin-dev"
           notify-on-pre-release: false
