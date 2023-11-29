@@ -1,9 +1,8 @@
 name: Release Workflow
 on:
-  push:
-    branches:
-      - next
-      - latest
+  release:
+    types:
+      - released
 
 jobs:
   auto_release:
