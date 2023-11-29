@@ -1,0 +1,10 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "stylelint.configFile": "packages/stylelint-config/.stylelintrc.cjs",
+  "stylelint.validate": ["css", "less", "postcss", "scss"],
+  "html.customData": [
+    "./node_modules/@pypestream/design-system/dist/vscode-html-custom-data.json"
+  ],
+  "editor.formatOnSave": true,
+  "editor.inlineSuggest.showToolbar": "onHover"
+}
