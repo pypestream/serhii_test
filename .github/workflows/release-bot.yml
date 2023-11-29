@@ -1,0 +1,30 @@
+name: Release Workflow
+on:
+  push:
+    branches:
+      - next
+      - latest
+
+jobs:
+  auto_release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Use auto-releases
+        uses: pypestream/auto-releases@next
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          slack-token: ${{ secrets.SLACK_GITHUB_APP_TOKEN }}
+          slack-channels: "manager-and-admin-dev"
+          notify-on-pre-release: false
+          dry-run: false
+          release-branch: "latest"
+          main-branch: "next"
