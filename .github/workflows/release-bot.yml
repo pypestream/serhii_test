@@ -22,7 +22,7 @@ jobs:
         uses: pypestream/auto-releases@next
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          slack-token: ${{ secrets.SLACK_GITHUB_APP_TOKEN }}
+          slack-token: ${{ secrets.SLACK_TOKEN }}
           slack-channels: "manager-and-admin-dev"
           notify-on-pre-release: false
           dry-run: false
