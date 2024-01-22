@@ -1,30 +1,16 @@
-name: Release Workflow
+name: Notify Slack on Release
+
 on:
-  push:
-    branches:
-      - next
-      - latest
+  release:
+    types:
+      - published
 
 jobs:
-  auto_release:
+  notify_slack:
     runs-on: ubuntu-latest
-
+    name: Notify Slack on Release
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Notify Slack on Release
+        uses: instantish/notify-slack-on-release@1.0.0
         with:
-          node-version: 18
-
-      - name: Use auto-releases
-        uses: schupryna/auto-releases@next
-        with:
-          github-token: ${{ secrets.GH_TOKEN }}
-          slack-token: ${{ secrets.SLACK_TOKEN }}
-          slack-channels: "manager-and-admin-dev"
-          notify-on-pre-release: false
-          dry-run: false
-          release-branch: "latest"
-          main-branch: "next"
+          slack_webhook_url: ${{ secrets.TEST__CHANNEL_RELEASE_BOT__WEBHOOK_URL }}
