@@ -25,6 +25,7 @@ async function run() {
 
     console.log("release: ", JSON.stringify(release, null, 2));
     console.log("repo: ", repo);
+    console.log("prerelease: ", isPreRelease);
 
     const slackWebhookUrl = isPreRelease ? preReleaseWebhook : releaseWebhook;
     console.log(`slackWebhookUrl: ${slackWebhookUrl}`);
