@@ -6,10 +6,6 @@ on:
       # - released
       - published
 
-env:
-  PRERELEASE_WEBHOOK_URL: ${{ secrets.PRERELEASE_WEBHOOK_URL }}
-  RELEASE_WEBHOOK_URL: ${{ secrets.RELEASE_WEBHOOK_URL }}
-
 jobs:
   publish-release:
     runs-on: ubuntu-latest
@@ -29,3 +25,6 @@ jobs:
 
       - name: Script test
         run: yarn run script
+        env:
+          PRERELEASE_WEBHOOK_URL: ${{ secrets.PRERELEASE_WEBHOOK_URL }}
+          RELEASE_WEBHOOK_URL: ${{ secrets.RELEASE_WEBHOOK_URL }}
