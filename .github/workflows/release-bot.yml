@@ -1,29 +1,27 @@
-name: Release Workflow
+name: Notify Slack on Release
+
 on:
   release:
     types:
-      - released
+      # - released
+      - published
 
 jobs:
-  auto_release:
+  publish-release:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Setup Node.js (18)
+        uses: actions/setup-node@v4
         with:
           node-version: 18
+          registry-url: "https://registry.npmjs.org"
+          cache: "yarn"
 
-      - name: Use auto-releases
-        uses: pypestream/auto-releases@next
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          slack-token: ${{ secrets.SLACK_TOKEN }}
-          slack-channels: "manager-and-admin-dev"
-          notify-on-pre-release: false
-          dry-run: false
-          release-branch: "latest"
-          main-branch: "next"
+      - name: Installing Dependencies
+        run: yarn install --immutable
+
+      - name: Script test
+        run: yarn run script
