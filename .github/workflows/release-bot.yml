@@ -3,7 +3,8 @@ name: Notify Slack on Release
 on:
   release:
     types:
-      - released
+      # - released
+      - published
 
 jobs:
   publish-release:
