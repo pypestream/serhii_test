@@ -1,3 +1,4 @@
+// https://github.com/tryfabric/notify-slack-on-release/blob/main/src/send-release-notification.ts
 // import * as core from "@actions/core";
 // import * as github from "@actions/github";
 const core = require("@actions/core");
