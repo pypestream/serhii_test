@@ -3,7 +3,7 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
 // import type { ReleaseReleasedEvent } from "@octokit/webhooks-types";
-const sendReleaseNotification = from("./slack-notification");
+const sendReleaseNotification = require("./slack-notification");
 
 // async function run(): Promise<void> {
 async function run() {
