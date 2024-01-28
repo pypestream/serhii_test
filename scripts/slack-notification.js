@@ -29,7 +29,9 @@ const releaseWebhook = process.env.RELEASE_WEBHOOK_URL;
  *   send out notification)
  * - Do we want to call these Slack release notifications something else other than "Pypestream FE"?
  */
-export async function sendReleaseNotification({ release, repo }) {
+
+// export async function sendReleaseNotification({ release, repo }) {
+async function sendReleaseNotification({ release, repo }) {
   const isPreRelease = release.prerelease;
   const hook = isPreRelease ? preReleaseWebhook : releaseWebhook;
 
@@ -64,4 +66,6 @@ export async function sendReleaseNotification({ release, repo }) {
   }
 }
 
-export default sendReleaseNotification;
+// export default sendReleaseNotification;
+
+exports.sendReleaseNotification = sendReleaseNotification;
