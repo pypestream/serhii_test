@@ -11,7 +11,7 @@ const releaseWebhook = process.env.RELEASE_WEBHOOK_URL;
 // async function run(): Promise<void> {
 async function run() {
   try {
-    core.debug(`Sending notification...`);
+    console.log(`Sending notification...`);
 
     const context = github.context;
     const { eventName, repo } = context;
@@ -20,19 +20,14 @@ async function run() {
     }
     // const payload = context.payload as ReleaseReleasedEvent;
     const payload = context.payload;
-
     const release = payload.release;
     const isPreRelease = payload.release.prerelease;
 
-    core.debug(JSON.stringify(release, null, 2));
     console.log("release: ", JSON.stringify(release, null, 2));
-    core.debug(JSON.stringify(repo, null, 2));
     console.log("repo: ", repo);
-    core.debug(`prerelease: ${isPreRelease}`);
 
     const slackWebhookUrl = isPreRelease ? preReleaseWebhook : releaseWebhook;
-
-    core.debug(`slackWebhookUrl: ${slackWebhookUrl}`);
+    console.log(`slackWebhookUrl: ${slackWebhookUrl}`);
 
     // await sendReleaseNotification({
     //   slackWebhookUrl,
@@ -40,9 +35,12 @@ async function run() {
     //   repo
     // })
 
-    core.debug("Sent notification");
+    console.log("Sent notification");
   } catch (error) {
-    if (error instanceof Error) core.setFailed(error.message);
+    if (error instanceof Error) {
+      console.error(`Error: ${JSON.stringify(error, null, 2)}`);
+      core.setFailed(error.message);
+    }
   }
 }
 
