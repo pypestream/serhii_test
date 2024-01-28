@@ -1,5 +1,8 @@
-import { IncomingWebhook } from "@slack/webhook";
-import { markdownToBlocks } from "@instantish/mack";
+// import { IncomingWebhook } from "@slack/webhook";
+// import { markdownToBlocks } from "@instantish/mack";
+
+const { IncomingWebhook } = require("@slack/webhook");
+const { markdownToBlocks } = require("@instantish/mack");
 
 const preReleaseWebhook = process.env.PRERELEASE_WEBHOOK_URL;
 const releaseWebhook = process.env.RELEASE_WEBHOOK_URL;
