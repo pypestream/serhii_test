@@ -45,8 +45,8 @@ async function sendReleaseNotification({ release, repo }) {
 
   const webhook = new IncomingWebhook(hook);
   const bodyBlocks = await markdownToBlocks(release.body);
-  const owner = repo.owner.charAt(0).toUpperCase() + string.slice(1);
-  const repositoryName = repo.repo.charAt(0).toUpperCase() + string.slice(1);
+  const owner = repo.owner.charAt(0).toUpperCase() + owner.slice(1);
+  const repositoryName = repo.repo.charAt(0).toUpperCase() + repo.repo.slice(1);
 
   await webhook.send({
     text: `${owner} ${repositoryName} ${release.tag_name} Released!`,
