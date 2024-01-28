@@ -60,3 +60,5 @@ export async function sendReleaseNotification({ release, repo }) {
     });
   }
 }
+
+export default sendReleaseNotification;
