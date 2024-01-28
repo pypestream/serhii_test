@@ -35,35 +35,43 @@ async function sendReleaseNotification({ release, repo }) {
   const isPreRelease = release.prerelease;
   const hook = isPreRelease ? preReleaseWebhook : releaseWebhook;
 
-  if (hook) {
-    const webhook = new IncomingWebhook(hook);
-    const bodyBlocks = await markdownToBlocks(release.body);
-
-    await webhook.send({
-      text: `${repo.owner} ${repo.repo} ${release.tag_name} Released!`,
-      icon_emoji: ":rocket:",
-      blocks: [
-        {
-          type: "header",
-          text: {
-            type: "plain_text",
-            text: `${repo.owner} ${repo.repo} ${release.tag_name} has been released! :rocket:`,
-            emoji: true,
-          },
-        },
-
-        {
-          type: "section",
-          text: {
-            type: "mrkdwn",
-            text: `<${release.html_url}>`,
-          },
-        },
-
-        ...bodyBlocks,
-      ],
-    });
+  if (!hook) {
+    throw new Error(
+      `No webhook URL found for ${
+        isPreRelease ? "pre-release" : "release"
+      } notification`
+    );
   }
+
+  const webhook = new IncomingWebhook(hook);
+  const bodyBlocks = await markdownToBlocks(release.body);
+  const owner = repo.owner.charAt(0).toUpperCase() + string.slice(1);
+  const repositoryName = repo.repo.charAt(0).toUpperCase() + string.slice(1);
+
+  await webhook.send({
+    text: `${owner} ${repositoryName} ${release.tag_name} Released!`,
+    icon_emoji: ":rocket:",
+    blocks: [
+      {
+        type: "header",
+        text: {
+          type: "plain_text",
+          text: `${owner} ${repositoryName} ${release.tag_name} has been Released! :rocket:`,
+          emoji: true,
+        },
+      },
+
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `Check out the latest release notes <${release.html_url}|on Github> to see what's changed!`,
+        },
+      },
+
+      ...bodyBlocks,
+    ],
+  });
 }
 
 // export default sendReleaseNotification;
@@ -71,52 +79,3 @@ async function sendReleaseNotification({ release, repo }) {
 module.exports = { sendReleaseNotification };
 
 exports.sendReleaseNotification = sendReleaseNotification;
-
-// import axios from "axios";
-// import { markdownToBlocks } from "@instantish/mack";
-
-// const axios = require("axios");
-// const { markdownToBlocks } = require("@instantish/mack");
-
-// const preReleaseWebhook = process.env.PRERELEASE_WEBHOOK_URL;
-// const releaseWebhook = process.env.RELEASE_WEBHOOK_URL;
-
-// async function sendReleaseNotification({ release, repo }) {
-//   const isPreRelease = release.prerelease;
-//   const hook = isPreRelease ? preReleaseWebhook : releaseWebhook;
-
-//   if (hook) {
-//     const introBlock = {
-//       type: "header",
-//       text: {
-//         type: "header",
-//         text: {
-//           type: "plain_text",
-//           text: `${repo.owner} ${repo.repo} ${release.tag_name} has been released! :rocket:`,
-//           emoji: true,
-//         },
-//       },
-//     };
-//     const linkBlock = {
-//       type: "section",
-//       text: {
-//         type: "section",
-//         text: {
-//           type: "mrkdwn",
-//           text: `<${release.html_url}>`,
-//         },
-//       },
-//     };
-
-//     const bodyBlocks = await markdownToBlocks(release.body);
-
-//     return await axios.post(hook, {
-//       text: `${release.name} has been released in ${repo.owner}/${repo.repo}`,
-//       blocks: [introBlock, linkBlock, ...bodyBlocks],
-//     });
-//   }
-// }
-
-// module.exports = { sendReleaseNotification };
-
-// exports.sendReleaseNotification = sendReleaseNotification;
