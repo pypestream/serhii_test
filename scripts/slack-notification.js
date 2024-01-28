@@ -78,35 +78,43 @@
 const axios = require("axios");
 const { markdownToBlocks } = require("@instantish/mack");
 
+const preReleaseWebhook = process.env.PRERELEASE_WEBHOOK_URL;
+const releaseWebhook = process.env.RELEASE_WEBHOOK_URL;
+
 async function sendReleaseNotification({ release, repo }) {
-  const introBlock = {
-    type: "header",
-    text: {
+  const isPreRelease = release.prerelease;
+  const hook = isPreRelease ? preReleaseWebhook : releaseWebhook;
+
+  if (hook) {
+    const introBlock = {
       type: "header",
       text: {
-        type: "plain_text",
-        text: `${repo.owner} ${repo.repo} ${release.tag_name} has been released! :rocket:`,
-        emoji: true,
+        type: "header",
+        text: {
+          type: "plain_text",
+          text: `${repo.owner} ${repo.repo} ${release.tag_name} has been released! :rocket:`,
+          emoji: true,
+        },
       },
-    },
-  };
-  const linkBlock = {
-    type: "section",
-    text: {
+    };
+    const linkBlock = {
       type: "section",
       text: {
-        type: "mrkdwn",
-        text: `<${release.html_url}>`,
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: `<${release.html_url}>`,
+        },
       },
-    },
-  };
+    };
 
-  const bodyBlocks = await markdownToBlocks(release.body);
+    const bodyBlocks = await markdownToBlocks(release.body);
 
-  return await axios.post(slackWebhookUrl, {
-    text: `${release.name} has been released in ${repo.owner}/${repo.repo}`,
-    blocks: [introBlock, linkBlock, ...bodyBlocks],
-  });
+    return await axios.post(hook, {
+      text: `${release.name} has been released in ${repo.owner}/${repo.repo}`,
+      blocks: [introBlock, linkBlock, ...bodyBlocks],
+    });
+  }
 }
 
 module.exports = { sendReleaseNotification };
