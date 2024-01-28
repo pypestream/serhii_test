@@ -3,11 +3,10 @@ name: Notify Slack on Release
 on:
   release:
     types:
-      # - released
       - published
 
 jobs:
-  publish-release:
+  send-notification:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -18,13 +17,13 @@ jobs:
         with:
           node-version: 18
           registry-url: "https://registry.npmjs.org"
-          cache: "yarn"
 
       - name: Installing Dependencies
         run: yarn install --immutable
 
-      - name: Script test
-        run: yarn run script
+      - name: Send Slack Notification
+        run: yarn run release:send-notification
         env:
-          PRERELEASE_WEBHOOK_URL: ${{ secrets.PRERELEASE_WEBHOOK_URL }}
-          RELEASE_WEBHOOK_URL: ${{ secrets.RELEASE_WEBHOOK_URL }}
+          SLACK_PRERELEASE_WEBHOOK_URL: ${{ secrets.SLACK_PRERELEASE_WEBHOOK_URL }}
+          SLACK_RELEASE_DEV_WEBHOOK_URL: ${{ secrets.SLACK_RELEASE_DEV_WEBHOOK_URL }}
+          SLACK_RELEASE_WEBHOOK_URL: ${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}

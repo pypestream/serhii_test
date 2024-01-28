@@ -4,9 +4,6 @@
 const { IncomingWebhook } = require("@slack/webhook");
 const { markdownToBlocks } = require("@instantish/mack");
 
-const preReleaseWebhook = process.env.PRERELEASE_WEBHOOK_URL;
-const releaseWebhook = process.env.RELEASE_WEBHOOK_URL;
-
 /**
  * TODOs & Questions:
  * - Make sure we add checks to NOT send out the release notification if release error occurs!
@@ -31,11 +28,13 @@ const releaseWebhook = process.env.RELEASE_WEBHOOK_URL;
  */
 
 // export async function sendReleaseNotification({ release, repo }) {
-async function sendReleaseNotification({ release, repo }) {
-  const isPreRelease = release.prerelease;
-  const hook = isPreRelease ? preReleaseWebhook : releaseWebhook;
-
-  if (!hook) {
+async function sendReleaseNotification({
+  release,
+  repo,
+  webhook,
+  isPreRelease,
+}) {
+  if (!webhook) {
     throw new Error(
       `No webhook URL found for ${
         isPreRelease ? "pre-release" : "release"
@@ -43,20 +42,24 @@ async function sendReleaseNotification({ release, repo }) {
     );
   }
 
-  const webhook = new IncomingWebhook(hook);
+  const slackWebhook = new IncomingWebhook(webhook);
   const bodyBlocks = await markdownToBlocks(release.body);
   const owner = repo.owner.charAt(0).toUpperCase() + repo.owner.slice(1);
   const repositoryName = repo.repo.charAt(0).toUpperCase() + repo.repo.slice(1);
 
-  await webhook.send({
-    text: `${owner} ${repositoryName} ${release.tag_name} Released!`,
+  await slackWebhook.send({
+    text: `${owner} ${repositoryName} ${release.tag_name} Released${
+      isPreRelease ? "(candidate)" : ""
+    }!`,
     icon_emoji: ":rocket:",
     blocks: [
       {
         type: "header",
         text: {
           type: "plain_text",
-          text: `${owner} ${repositoryName} ${release.tag_name} has been Released! :rocket:`,
+          text: `${owner} ${repositoryName} ${
+            release.tag_name
+          } has been Released${isPreRelease ? "(candidate)" : ""}! :rocket:`,
           emoji: true,
         },
       },
@@ -73,8 +76,6 @@ async function sendReleaseNotification({ release, repo }) {
     ],
   });
 }
-
-// export default sendReleaseNotification;
 
 module.exports = { sendReleaseNotification };
 
