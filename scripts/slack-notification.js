@@ -78,8 +78,10 @@
 const axios = require("axios");
 const { markdownToBlocks } = require("@instantish/mack");
 
-const preReleaseWebhook = process.env.PRERELEASE_WEBHOOK_URL;
-const releaseWebhook = process.env.RELEASE_WEBHOOK_URL;
+const preReleaseWebhook =
+  "https://hooks.slack.com/services/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";
+const releaseWebhook =
+  "https://hooks.slack.com/services/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";
 
 async function sendReleaseNotification({ release, repo }) {
   const isPreRelease = release.prerelease;
