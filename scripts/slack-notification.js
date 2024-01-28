@@ -68,4 +68,6 @@ async function sendReleaseNotification({ release, repo }) {
 
 // export default sendReleaseNotification;
 
+module.exports = { sendReleaseNotification };
+
 exports.sendReleaseNotification = sendReleaseNotification;
