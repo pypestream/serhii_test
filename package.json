@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "script": "tsx script.ts"
+    "script": "node script.ts"
   },
   "dependencies": {
     "@actions/core": "^1.6.0",

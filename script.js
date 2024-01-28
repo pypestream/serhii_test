@@ -1,9 +1,10 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import type { ReleaseReleasedEvent } from "@octokit/webhooks-types";
+// import type { ReleaseReleasedEvent } from "@octokit/webhooks-types";
 // import {sendReleaseNotification} from './send-release-notification'
 
-async function run(): Promise<void> {
+// async function run(): Promise<void> {
+async function run() {
   try {
     core.debug(`Sending notification...`);
     // const slackWebhookUrl: string = core.getInput('slack_webhook_url')
@@ -13,7 +14,8 @@ async function run(): Promise<void> {
     if (eventName !== "release") {
       core.setFailed("Action should only be run on release publish events");
     }
-    const payload = context.payload as ReleaseReleasedEvent;
+    // const payload = context.payload as ReleaseReleasedEvent;
+    const payload = context.payload;
 
     const release = payload.release;
 
