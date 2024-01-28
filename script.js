@@ -5,11 +5,13 @@ const github = require("@actions/github");
 // import type { ReleaseReleasedEvent } from "@octokit/webhooks-types";
 // import {sendReleaseNotification} from './send-release-notification'
 
+const preReleaseWebhook = process.env.PRERELEASE_WEBHOOK_URL;
+const releaseWebhook = process.env.RELEASE_WEBHOOK_URL;
+
 // async function run(): Promise<void> {
 async function run() {
   try {
     core.debug(`Sending notification...`);
-    // const slackWebhookUrl: string = core.getInput('slack_webhook_url')
 
     const context = github.context;
     const { eventName, repo } = context;
@@ -20,11 +22,17 @@ async function run() {
     const payload = context.payload;
 
     const release = payload.release;
+    const isPreRelease = payload.release.prerelease;
 
     core.debug(JSON.stringify(release, null, 2));
     console.log("release: ", JSON.stringify(release, null, 2));
     core.debug(JSON.stringify(repo, null, 2));
     console.log("repo: ", repo);
+    core.debug(`prerelease: ${isPreRelease}`);
+
+    const slackWebhookUrl = isPreRelease ? preReleaseWebhook : releaseWebhook;
+
+    core.debug(`slackWebhookUrl: ${slackWebhookUrl}`);
 
     // await sendReleaseNotification({
     //   slackWebhookUrl,
