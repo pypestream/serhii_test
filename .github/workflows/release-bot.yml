@@ -6,11 +6,21 @@ on:
       - released
 
 jobs:
-  notify_slack:
+  publish-release:
     runs-on: ubuntu-latest
-    name: Notify Slack on Release
     steps:
-      - name: Notify Slack on Release
-        uses: instantish/notify-slack-on-release@1.0.0
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js (18)
+        uses: actions/setup-node@v4
         with:
-          slack_webhook_url: ${{ secrets.TEST__CHANNEL_RELEASE_BOT__WEBHOOK_URL }}
+          node-version: 18
+          registry-url: "https://registry.npmjs.org"
+          cache: "yarn"
+
+      - name: Installing Dependencies
+        run: yarn install --immutable
+
+      - name: Script test
+        run: yarn run script
