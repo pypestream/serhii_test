@@ -150,49 +150,49 @@ async function sendReleaseNotification({
       //     "https://github.com/pypestream/frontend/assets/103273897/75864fc7-6571-4d06-b11d-1e52d5329de5",
       //   alt_text: "image",
       // },
-      // {
-      //   type: "section",
-      //   text: {
-      //     type: "mrkdwn",
-      //     text: "Added a modal window with a form to complete account creation and an agreement with the terms and conditions for new users (user status `INVITED`)",
-      //   },
-      // },
-      // { type: "header", text: { type: "plain_text", text: "How to QA this" } },
-      // {
-      //   type: "section",
-      //   text: {
-      //     type: "mrkdwn",
-      //     text: "• invite new user on `Users` page in `Admin`\\n• log in with a new user credential on `Auth` page\\n• a user who has not previously accepted the terms and conditions agreement should see a modal window with a form to complete account creation\\n• the modal window cannot be closed by clicking outside, using the escape button, or in any other way, thereby gaining access to the Manager dashboard without accepting the `term and conditions`\\n• fill out the form, accept the `terms and conditions`, and click the `Create account` button\\n• the modal window should close\\n• the modal window should not appear after the page refresh\\n• log out and log in again\\n• the modal window should not be shown again to the user who accepted the `terms and conditions`",
-      //   },
-      // },
-      // { type: "divider" },
-      // { type: "header", text: { type: "plain_text", text: "🚀 Enhancement" } },
-      // {
-      //   type: "section",
-      //   text: {
-      //     type: "mrkdwn",
-      //     text: "• [DesignSystem] Bulk actions part 3 <https://github.com/pypestream/frontend/pull/512|#512>  (<https://github.com/vbondarps|@vbondarps>  <https://github.com/schupryna|@schupryna> )\\n• <https://pypestream.atlassian.net/browse/PE-27020|PE-27020> : Added release bot for slack <https://github.com/pypestream/frontend/pull/446|#446>  (<https://github.com/schupryna|@schupryna> )\\n• <https://pypestream.atlassian.net/browse/PE-27668|PE-27668> : User onboarding - terms and conditions <https://github.com/pypestream/frontend/pull/508|#508>  (<https://github.com/schupryna|@schupryna> )",
-      //   },
-      // },
-      // {
-      //   type: "header",
-      //   text: { type: "plain_text", text: "⚠️ Pushed to `candidate`" },
-      // },
-      // {
-      //   type: "section",
-      //   text: {
-      //     type: "mrkdwn",
-      //     text: "• chore: bump package version manually (<https://github.com/schupryna|@schupryna> )",
-      //   },
-      // },
-      // { type: "header", text: { type: "plain_text", text: "Authors: 2" } },
-      // {
-      //   type: "section",
-      //   text: {
-      //     type: "mrkdwn",
-      //     text: "• Serhii Chupryna (<https://github.com/schupryna|@schupryna> )\\n• Vitalii Bondar (<https://github.com/vbondarps|@vbondarps> )",
-      //   },
-      // },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "Added a modal window with a form to complete account creation and an agreement with the terms and conditions for new users (user status `INVITED`)",
+        },
+      },
+      { type: "header", text: { type: "plain_text", text: "How to QA this" } },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "• invite new user on `Users` page in `Admin`\\n• log in with a new user credential on `Auth` page\\n• a user who has not previously accepted the terms and conditions agreement should see a modal window with a form to complete account creation\\n• the modal window cannot be closed by clicking outside, using the escape button, or in any other way, thereby gaining access to the Manager dashboard without accepting the `term and conditions`\\n• fill out the form, accept the `terms and conditions`, and click the `Create account` button\\n• the modal window should close\\n• the modal window should not appear after the page refresh\\n• log out and log in again\\n• the modal window should not be shown again to the user who accepted the `terms and conditions`",
+        },
+      },
+      { type: "divider" },
+      { type: "header", text: { type: "plain_text", text: "🚀 Enhancement" } },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "• [DesignSystem] Bulk actions part 3 <https://github.com/pypestream/frontend/pull/512|#512>  (<https://github.com/vbondarps|@vbondarps>  <https://github.com/schupryna|@schupryna> )\\n• <https://pypestream.atlassian.net/browse/PE-27020|PE-27020> : Added release bot for slack <https://github.com/pypestream/frontend/pull/446|#446>  (<https://github.com/schupryna|@schupryna> )\\n• <https://pypestream.atlassian.net/browse/PE-27668|PE-27668> : User onboarding - terms and conditions <https://github.com/pypestream/frontend/pull/508|#508>  (<https://github.com/schupryna|@schupryna> )",
+        },
+      },
+      {
+        type: "header",
+        text: { type: "plain_text", text: "⚠️ Pushed to `candidate`" },
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "• chore: bump package version manually (<https://github.com/schupryna|@schupryna> )",
+        },
+      },
+      { type: "header", text: { type: "plain_text", text: "Authors: 2" } },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "• Serhii Chupryna (<https://github.com/schupryna|@schupryna> )\\n• Vitalii Bondar (<https://github.com/vbondarps|@vbondarps> )",
+        },
+      },
     ],
   });
 }
