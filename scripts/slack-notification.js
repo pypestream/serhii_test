@@ -78,13 +78,13 @@ async function sendReleaseNotification({
           text: "[DesignSystem] Bulk actions part 3 (#512)",
         },
       },
-      // {
-      //   type: "section",
-      //   text: {
-      //     type: "mrkdwn",
-      //     text: "• adds delete items functionality\\n• updates/fixes bulk-actions methods",
-      //   },
-      // },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "• adds delete items functionality\\n• updates/fixes bulk-actions methods",
+        },
+      },
       // {
       //   type: "section",
       //   text: {
