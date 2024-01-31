@@ -69,7 +69,7 @@ async function sendReleaseNotification({
           text: "Check out the latest release notes <https://github.com/pypestream/frontend/releases/tag/v1.12.0-rc.1|on Github> to see what's changed!",
         },
       },
-      ...release.body,
+      ...bodyBlocks,
       // { type: "header", text: { type: "plain_text", text: "Release Notes" } },
       // {
       //   type: "header",
