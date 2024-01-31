@@ -130,13 +130,13 @@ async function sendReleaseNotification({
           text: "@LeoDAuriaGupta \\nhere is the original text of the notification above:",
         },
       },
-      // {
-      //   type: "section",
-      //   text: {
-      //     type: "mrkdwn",
-      //     text: "Pypestream Serhii_test v1.0.4 has been Released! :rocket:\\nCheck out the latest release notes <https://github.com/pypestream/serhii_test/releases/tag/v1.0.4|on Github>  to see what&#39;s changed!\\nFull Changelog: <https://github.com/pypestream/serhii_test/compare/v1.0.1...v1.0.4|https://github.com/pypestream/serhii_test/compare/v1.0.1...v1.0.4> ",
-      //   },
-      // },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "Pypestream Serhii_test v1.0.4 has been Released! :rocket:\\nCheck out the latest release notes <https://github.com/pypestream/serhii_test/releases/tag/v1.0.4|on Github>  to see what&#39;s changed!\\nFull Changelog: <https://github.com/pypestream/serhii_test/compare/v1.0.1...v1.0.4|https://github.com/pypestream/serhii_test/compare/v1.0.1...v1.0.4> ",
+        },
+      },
       // {
       //   type: "header",
       //   text: {
