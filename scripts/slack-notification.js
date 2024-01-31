@@ -116,14 +116,6 @@ async function sendReleaseNotification({
       //   type: "section",
       //   text: { type: "mrkdwn", text: "Example of Slack notification:\\n" },
       // },
-      // // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      // // {
-      // //   type: "image",
-      // //   image_url:
-      // //     "https://github.com/pypestream/frontend/assets/103273897/516dbbf3-606a-4ced-9ede-bc6ff79ce00b",
-      // //   alt_text: "image",
-      // // },
-      // // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       // {
       //   type: "section",
       //   text: {
@@ -145,8 +137,6 @@ async function sendReleaseNotification({
       //     text: "PE-27668: User onboarding - terms and conditions (#508)",
       //   },
       // },
-      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       // {
       //   type: "section",
       //   text: {
@@ -190,12 +180,19 @@ async function sendReleaseNotification({
       //     text: "• Serhii Chupryna (<https://github.com/schupryna|@schupryna> )\\n• Vitalii Bondar (<https://github.com/vbondarps|@vbondarps> )",
       //   },
       // },
-      // {
-      //   type: "image",
-      //   image_url:
-      //     "https://github.com/pypestream/frontend/assets/103273897/75864fc7-6571-4d06-b11d-1e52d5329de5",
-      //   alt_text: "image",
-      // },
+
+      {
+        type: "image",
+        image_url:
+          "https://github.com/pypestream/frontend/assets/103273897/516dbbf3-606a-4ced-9ede-bc6ff79ce00b",
+        alt_text: "other_text",
+      },
+      {
+        type: "image",
+        image_url:
+          "https://github.com/pypestream/frontend/assets/103273897/75864fc7-6571-4d06-b11d-1e52d5329de5",
+        alt_text: "some_alt",
+      },
       {
         type: "image",
         image_url:
