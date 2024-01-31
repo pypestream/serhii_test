@@ -69,15 +69,15 @@ async function sendReleaseNotification({
           text: "Check out the latest release notes <https://github.com/pypestream/frontend/releases/tag/v1.12.0-rc.1|on Github> to see what's changed!",
         },
       },
-      ...bodyBlocks,
-      // { type: "header", text: { type: "plain_text", text: "Release Notes" } },
-      // {
-      //   type: "header",
-      //   text: {
-      //     type: "plain_text",
-      //     text: "[DesignSystem] Bulk actions part 3 (#512)",
-      //   },
-      // },
+      // ...bodyBlocks,
+      { type: "header", text: { type: "plain_text", text: "Release Notes" } },
+      {
+        type: "header",
+        text: {
+          type: "plain_text",
+          text: "[DesignSystem] Bulk actions part 3 (#512)",
+        },
+      },
       // {
       //   type: "section",
       //   text: {
@@ -85,14 +85,14 @@ async function sendReleaseNotification({
       //     text: "• adds delete items functionality\\n• updates/fixes bulk-actions methods",
       //   },
       // },
-      // // {
-      // //   type: "section",
-      // //   text: {
-      // //     type: "mrkdwn",
-      // //     text: "<https://github.com/pypestream/frontend/assets/103594165/37a68182-d8a2-425e-837c-0bf652275d29|https://github.com/pypestream/frontend/assets/103594165/37a68182-d8a2-425e-837c-0bf652275d29> ",
-      // //   },
-      // // },
       // {
+      //   type: "section",
+      //   text: {
+      //     type: "mrkdwn",
+      //     text: "<https://github.com/pypestream/frontend/assets/103594165/37a68182-d8a2-425e-837c-0bf652275d29|https://github.com/pypestream/frontend/assets/103594165/37a68182-d8a2-425e-837c-0bf652275d29> ",
+      //   },
+      // },
+      {
       //   type: "header",
       //   text: {
       //     type: "plain_text",
