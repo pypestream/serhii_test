@@ -106,13 +106,13 @@ async function sendReleaseNotification({
           text: "<https://pypestream.atlassian.net/browse/PE-27020|Ticket> ",
         },
       },
-      // {
-      //   type: "section",
-      //   text: {
-      //     type: "mrkdwn",
-      //     text: "added release bot for slack\\nmessages will be sent in `manager-and-admin-product` slack channel after releases\\nmessages will be sent in `manager-and-admin-dev` slack channel after releases and pre-releases",
-      //   },
-      // },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "added release bot for slack\\nmessages will be sent in `manager-and-admin-product` slack channel after releases\\nmessages will be sent in `manager-and-admin-dev` slack channel after releases and pre-releases",
+        },
+      },
       // {
       //   type: "section",
       //   text: { type: "mrkdwn", text: "Example of Slack notification:\\n" },
