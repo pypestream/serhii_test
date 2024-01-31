@@ -146,12 +146,14 @@ async function sendReleaseNotification({
       //     text: "PE-27668: User onboarding - terms and conditions (#508)",
       //   },
       // },
-      {
-        type: "image",
-        image_url:
-          "https://github.com/pypestream/frontend/assets/103273897/75864fc7-6571-4d06-b11d-1e52d5329de5",
-        alt_text: "image",
-      },
+      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      // {
+      //   type: "image",
+      //   image_url:
+      //     "https://github.com/pypestream/frontend/assets/103273897/75864fc7-6571-4d06-b11d-1e52d5329de5",
+      //   alt_text: "image",
+      // },
+      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       // {
       //   type: "section",
       //   text: {
