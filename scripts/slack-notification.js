@@ -92,20 +92,20 @@ async function sendReleaseNotification({
           text: "<https://github.com/pypestream/frontend/assets/103594165/37a68182-d8a2-425e-837c-0bf652275d29|https://github.com/pypestream/frontend/assets/103594165/37a68182-d8a2-425e-837c-0bf652275d29> ",
         },
       },
-      // {
-      //   type: "header",
-      //   text: {
-      //     type: "plain_text",
-      //     text: "PE-27020: Added release bot for slack (#446)",
-      //   },
-      // },
-      // {
-      //   type: "section",
-      //   text: {
-      //     type: "mrkdwn",
-      //     text: "<https://pypestream.atlassian.net/browse/PE-27020|Ticket> ",
-      //   },
-      // },
+      {
+        type: "header",
+        text: {
+          type: "plain_text",
+          text: "PE-27020: Added release bot for slack (#446)",
+        },
+      },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "<https://pypestream.atlassian.net/browse/PE-27020|Ticket> ",
+        },
+      },
       // {
       //   type: "section",
       //   text: {
