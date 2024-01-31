@@ -146,12 +146,6 @@ async function sendReleaseNotification({
       //   },
       // },
       // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-      {
-        type: "image",
-        image_url:
-          "https://github.com/pypestream/frontend/assets/103273897/75864fc7-6571-4d06-b11d-1e52d5329de5",
-        alt_text: "image",
-      },
       // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       // {
       //   type: "section",
@@ -196,7 +190,18 @@ async function sendReleaseNotification({
       //     text: "• Serhii Chupryna (<https://github.com/schupryna|@schupryna> )\\n• Vitalii Bondar (<https://github.com/vbondarps|@vbondarps> )",
       //   },
       // },
-      ...bodyBlocks,
+      {
+        type: "image",
+        image_url:
+          "https://github.com/pypestream/frontend/assets/103273897/75864fc7-6571-4d06-b11d-1e52d5329de5",
+        alt_text: "image",
+      },
+      {
+        type: "image",
+        image_url:
+          "https://github.com/pypestream/serhii_test/assets/103273897/6374261a-c677-4f4d-a412-849bc7e8d6f4",
+        alt_text: "TEST_IMAGE",
+      },
     ],
   };
 
