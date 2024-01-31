@@ -113,16 +113,16 @@ async function sendReleaseNotification({
           text: "added release bot for slack\\nmessages will be sent in `manager-and-admin-product` slack channel after releases\\nmessages will be sent in `manager-and-admin-dev` slack channel after releases and pre-releases",
         },
       },
-      // {
-      //   type: "section",
-      //   text: { type: "mrkdwn", text: "Example of Slack notification:\\n" },
-      // },
-      // {
-      //   type: "image",
-      //   image_url:
-      //     "https://github.com/pypestream/frontend/assets/103273897/516dbbf3-606a-4ced-9ede-bc6ff79ce00b",
-      //   alt_text: "image",
-      // },
+      {
+        type: "section",
+        text: { type: "mrkdwn", text: "Example of Slack notification:\\n" },
+      },
+      {
+        type: "image",
+        image_url:
+          "https://github.com/pypestream/frontend/assets/103273897/516dbbf3-606a-4ced-9ede-bc6ff79ce00b",
+        alt_text: "image",
+      },
       // {
       //   type: "section",
       //   text: {
