@@ -92,7 +92,7 @@ async function sendReleaseNotification({
       //     text: "<https://github.com/pypestream/frontend/assets/103594165/37a68182-d8a2-425e-837c-0bf652275d29|https://github.com/pypestream/frontend/assets/103594165/37a68182-d8a2-425e-837c-0bf652275d29> ",
       //   },
       // },
-      {
+      // {
       //   type: "header",
       //   text: {
       //     type: "plain_text",
