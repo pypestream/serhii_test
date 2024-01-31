@@ -42,14 +42,14 @@ async function sendReleaseNotification({
     );
   }
 
-  console.log("release: ", JSON.stringify(release, null, 2));
+  // console.log("release: ", JSON.stringify(release, null, 2));
 
   const slackWebhook = new IncomingWebhook(webhook);
   const bodyBlocks = await markdownToBlocks(release.body);
   const owner = repo.owner.charAt(0).toUpperCase() + repo.owner.slice(1);
   const repositoryName = repo.repo.charAt(0).toUpperCase() + repo.repo.slice(1);
 
-  await slackWebhook.send({
+  const message = {
     timeout: 0,
     text: "Pypestream Frontend v1.12.0-rc.1 Released (candidate)!",
     icon_emoji: ":rocket:",
@@ -198,7 +198,11 @@ async function sendReleaseNotification({
       },
       ...bodyBlocks,
     ],
-  });
+  };
+
+  console.log("MESSAGE: ", JSON.stringify(message, null, 2));
+
+  await slackWebhook.send(message);
 }
 
 module.exports = { sendReleaseNotification };
