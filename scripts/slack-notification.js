@@ -85,13 +85,13 @@ async function sendReleaseNotification({
           text: "• adds delete items functionality\\n• updates/fixes bulk-actions methods",
         },
       },
-      // {
-      //   type: "section",
-      //   text: {
-      //     type: "mrkdwn",
-      //     text: "<https://github.com/pypestream/frontend/assets/103594165/37a68182-d8a2-425e-837c-0bf652275d29|https://github.com/pypestream/frontend/assets/103594165/37a68182-d8a2-425e-837c-0bf652275d29> ",
-      //   },
-      // },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "<https://github.com/pypestream/frontend/assets/103594165/37a68182-d8a2-425e-837c-0bf652275d29|https://github.com/pypestream/frontend/assets/103594165/37a68182-d8a2-425e-837c-0bf652275d29> ",
+        },
+      },
       // {
       //   type: "header",
       //   text: {
