@@ -123,13 +123,13 @@ async function sendReleaseNotification({
       //     "https://github.com/pypestream/frontend/assets/103273897/516dbbf3-606a-4ced-9ede-bc6ff79ce00b",
       //   alt_text: "image",
       // },
-      // {
-      //   type: "section",
-      //   text: {
-      //     type: "mrkdwn",
-      //     text: "@LeoDAuriaGupta \\nhere is the original text of the notification above:",
-      //   },
-      // },
+      {
+        type: "section",
+        text: {
+          type: "mrkdwn",
+          text: "@LeoDAuriaGupta \\nhere is the original text of the notification above:",
+        },
+      },
       // {
       //   type: "section",
       //   text: {
