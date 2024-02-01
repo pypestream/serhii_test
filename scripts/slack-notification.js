@@ -60,25 +60,16 @@ async function sendReleaseNotification({
 
   const images = bodyBlocks
     .filter((block) => block.type === "image")
-    .map((block) => block.image_url);
+    .map((block) => ({ url: block.image_url, name: alt_text }));
 
-  const uploadedImages = [];
+  cloudinary.uploader
+    .upload(images[0].url, { public_id: images[0].name })
+    .then((result) => {
+      console.log("result------------------->", result.url);
+    })
+    .catch((error) => console.error(JSON.stringify(error)));
 
-  images.forEach(async (image) => {
-    await cloudinary.uploader.upload(
-      image,
-      { public_id: "olympic_flag" },
-      function (error, result) {
-        uploadedImages.push(result.url);
-        console.log("RESULT: ", JSON.stringify(result.url, null, 2));
-        console.log("ERROR: ", JSON.stringify(error, null, 2));
-      }
-    );
-  });
-
-  // console.log("IMAGES_URLs: ", images);
-
-  console.log("uploadedImages------------------->", uploadedImages);
+  console.log("IMAGES_URLs: ", images);
 
   const message = {
     timeout: 0,
@@ -242,7 +233,7 @@ async function sendReleaseNotification({
 
   // console.log("MESSAGE: ", JSON.stringify(message, null, 2));
 
-  await slackWebhook.send(message);
+  // await slackWebhook.send(message);
 }
 
 module.exports = { sendReleaseNotification };
