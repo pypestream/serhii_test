@@ -64,7 +64,7 @@ async function sendReleaseNotification({
 
   Promise.all(
     images.map(({ url, name }) => {
-      new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         cloudinary.uploader
           .upload(url, { public_id: name })
           .then((result) => {
