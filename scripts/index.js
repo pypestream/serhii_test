@@ -54,9 +54,9 @@ const run = async () => {
     console.log(`sha: ${github.context.sha}`);
 
     console.log(
-      "%crelease.body------------------->",
+      "%crelease------------------->",
       "color: green; font-size: larger; font-weight: bold",
-      release.body
+      release
     );
 
     const res = await octokit.request(
@@ -73,12 +73,17 @@ const run = async () => {
         },
       }
     );
-    let mdfiles = res.data.files
-      .filter(
-        (file) => file.status !== "removed" && file.filename.endsWith(".md")
-      )
-      .map((file) => file.filename);
-    console.log(`markdown files: ${JSON.stringify(mdfiles, undefined, 2)}`);
+    console.log(
+      "%cres------------------->",
+      "color: green; font-size: larger; font-weight: bold",
+      res
+    );
+    // let mdfiles = res.data.files
+    //   .filter(
+    //     (file) => file.status !== "removed" && file.filename.endsWith(".md")
+    //   )
+    //   .map((file) => file.filename);
+    // console.log(`markdown files: ${JSON.stringify(mdfiles, undefined, 2)}`);
 
     // const cosOptions = {
     //   secretId,
