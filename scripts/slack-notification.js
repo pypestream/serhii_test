@@ -63,7 +63,7 @@ async function sendReleaseNotification({
     .map((block) => block.image_url);
 
   await cloudinary.uploader.upload(
-    "https://github.com/pypestream/frontend/assets/103273897/516dbbf3-606a-4ced-9ede-bc6ff79ce00b",
+    images[0],
     { public_id: "olympic_flag" },
     function (error, result) {
       console.log("RESULT: ", JSON.stringify(result, null, 2));
