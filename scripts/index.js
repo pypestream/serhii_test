@@ -1,5 +1,23 @@
 const http = require("https");
 const fs = require("fs");
+const getMarkdownUrls = require("gh-md-urls");
+
+const readFile = (path) => fs.readFileSync(path, "utf8");
+
+const getImages = (content) => {
+  var urls = getMarkdownUrls(content, {
+    repository: "https://github.com/mattdesl/gh-md-urls",
+  });
+
+  console.log(
+    "%curls------------------->",
+    "color: green; font-size: larger; font-weight: bold",
+    urls
+  );
+
+  const images = urls.filter((item) => item.type === "image");
+  return images;
+};
 
 function getRemoteFile(file, url) {
   try {
@@ -20,10 +38,13 @@ function getRemoteFile(file, url) {
       );
     });
 
+    const content = readFile(localFile.path);
+    const images = getImages(content);
+
     console.log(
-      "%crequest------------------->",
+      "%cimages------------------->",
       "color: green; font-size: larger; font-weight: bold",
-      request
+      images
     );
   } catch (error) {
     console.log(
