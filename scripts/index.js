@@ -2,6 +2,7 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 // const artifact = require("@actions/artifact");
 const { replaceMdImages } = require("./replace-md-images");
+
 // const { notify } = require("./notify");
 
 // const uploadArtifact = async (infos) => {
@@ -43,15 +44,21 @@ const run = async () => {
   const octokit = new github.getOctokit(token);
 
   try {
+    const {
+      context: {
+        payload: { release },
+      },
+    } = github;
     const repo = github.context.repo;
     console.log(`repo: ${JSON.stringify(repo)}`);
     console.log(`sha: ${github.context.sha}`);
     const res = await octokit.request(
       //   "GET /repos/{owner}/{repo}/commits/{ref}",
-      "GET /repos/{owner}/{repo}/releases",
+      "GET /repos/{owner}/{repo}/releases/{release_id}",
       {
         owner: repo.owner,
         repo: repo.repo,
+        release_id: release.id,
         // ref: github.context.ref,
         headers: {
           "X-GitHub-Api-Version": "2022-11-28",
