@@ -38,7 +38,7 @@ function getRemoteFile(file, url) {
       );
     });
 
-    const content = readFile(localFile.path);
+    const content = readFile(`./${localFile.path}`);
     const images = getImages(content);
 
     console.log(
