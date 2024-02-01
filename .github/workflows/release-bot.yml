@@ -23,7 +23,7 @@ jobs:
 
       - name: Send Slack Notification
         # run: yarn run release:send-notification
-        run: yarn run release:send-test
+        run: yarn run release:test
         env:
           SLACK_PRERELEASE_WEBHOOK_URL: ${{ secrets.SLACK_PRERELEASE_WEBHOOK_URL }}
           SLACK_RELEASE_DEV_WEBHOOK_URL: ${{ secrets.SLACK_RELEASE_DEV_WEBHOOK_URL }}
