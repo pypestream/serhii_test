@@ -36,11 +36,13 @@ function getRemoteFile(file, url) {
   );
 }
 
-getRemoteFile({
+const item = {
   name: "remote-image",
   file: "image.png",
   url: "https://github.com/pypestream/frontend/assets/103273897/516dbbf3-606a-4ced-9ede-bc6ff79ce00b",
-});
+};
+
+getRemoteFile(item.file, item.url);
 
 // const core = require("@actions/core");
 // const github = require("@actions/github");
