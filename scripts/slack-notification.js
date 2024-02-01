@@ -3,6 +3,15 @@
 
 const { IncomingWebhook } = require("@slack/webhook");
 const { markdownToBlocks } = require("@instantish/mack");
+const { v2 } = require("cloudinary");
+
+const cloudinary = v2;
+
+cloudinary.config({
+  cloud_name: "dvnmehqko",
+  api_key: "473343293529714",
+  api_secret: "bE-_OiM7f8DbVP9adlVgiWQx97Q",
+});
 
 /**
  * TODOs & Questions:
@@ -52,6 +61,15 @@ async function sendReleaseNotification({
   const images = bodyBlocks
     .filter((block) => block.type === "image")
     .map((block) => block.image_url);
+
+  await cloudinary.uploader.upload(
+    "https://github.com/pypestream/frontend/assets/103273897/516dbbf3-606a-4ced-9ede-bc6ff79ce00b",
+    { public_id: "olympic_flag" },
+    function (error, result) {
+      console.log("RESULT: ", JSON.stringify(result, null, 2));
+      console.log("ERROR: ", JSON.stringify(error, null, 2));
+    }
+  );
 
   console.log("IMAGES_URLs: ", images);
 
