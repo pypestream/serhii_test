@@ -120,7 +120,7 @@ const run = async () => {
     const res = await octokit.request(
       //   "GET /repos/{owner}/{repo}/commits/{ref}",
       //   "GET /repos/{owner}/{repo}/releases/{release_id}",
-      "GET /repos/{owner}/{repo}/assets/103273897",
+      "GET /repos/pypestream/frontend/assets/103273897",
       {
         owner: repo.owner,
         repo: repo.repo,
