@@ -47,11 +47,12 @@ const run = async () => {
     console.log(`repo: ${JSON.stringify(repo)}`);
     console.log(`sha: ${github.context.sha}`);
     const res = await octokit.request(
-      "GET /repos/{owner}/{repo}/commits/{ref}",
+      //   "GET /repos/{owner}/{repo}/commits/{ref}",
+      "GET /repos/{owner}/{repo}/releases",
       {
         owner: repo.owner,
         repo: repo.repo,
-        ref: github.context.ref,
+        // ref: github.context.ref,
         headers: {
           "X-GitHub-Api-Version": "2022-11-28",
         },
