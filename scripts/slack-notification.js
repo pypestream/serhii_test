@@ -60,7 +60,7 @@ async function sendReleaseNotification({
 
   const images = bodyBlocks
     .filter((block) => block.type === "image")
-    .map((block) => ({ url: block.image_url, name: alt_text }));
+    .map((block) => ({ url: block.image_url, name: block.alt_text }));
 
   cloudinary.uploader
     .upload(images[0].url, { public_id: images[0].name })
