@@ -62,16 +62,23 @@ async function sendReleaseNotification({
     .filter((block) => block.type === "image")
     .map((block) => block.image_url);
 
-  await cloudinary.uploader.upload(
-    images[0],
-    { public_id: "olympic_flag" },
-    function (error, result) {
-      console.log("RESULT: ", JSON.stringify(result, null, 2));
-      console.log("ERROR: ", JSON.stringify(error, null, 2));
-    }
-  );
+  const uploadedImages = [];
 
-  console.log("IMAGES_URLs: ", images);
+  images.forEach(async (image) => {
+    await cloudinary.uploader.upload(
+      image,
+      { public_id: "olympic_flag" },
+      function (error, result) {
+        uploadedImages.push(result.url);
+        console.log("RESULT: ", JSON.stringify(result.url, null, 2));
+        console.log("ERROR: ", JSON.stringify(error, null, 2));
+      }
+    );
+  });
+
+  // console.log("IMAGES_URLs: ", images);
+
+  console.log("uploadedImages------------------->", uploadedImages);
 
   const message = {
     timeout: 0,
