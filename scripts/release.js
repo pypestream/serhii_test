@@ -51,9 +51,10 @@ async function run() {
     // console.log("assets list: ", JSON.stringify(data, null, 2));
 
     const isPreRelease = release.prerelease;
-    const webhooks = isPreRelease
-      ? [preReleaseWebhook]
-      : [releaseWebhook, releaseDevWebhook];
+    // const webhooks = isPreRelease
+    //   ? [preReleaseWebhook]
+    //   : [releaseWebhook, releaseDevWebhook];
+    const webhooks = [preReleaseWebhook];
 
     webhooks.forEach(async (webhook) => {
       await sendReleaseNotification({
