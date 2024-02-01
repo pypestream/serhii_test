@@ -3,6 +3,7 @@ const core = require("@actions/core");
 const github = require("@actions/github");
 const { markdownToBlocks } = require("@instantish/mack");
 const { v2 } = require("cloudinary");
+const { IncomingWebhook } = require("@slack/webhook");
 
 const cloudinary = v2;
 
