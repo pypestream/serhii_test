@@ -87,23 +87,23 @@ const run = async () => {
     //   region,
     //   prefix,
     // };
-    const infos = await Promise.all(
-      mdfiles.map(async (mdfile) => {
-        const { newFileName, previewUrl, newContent } = await replaceMdImages(
-          mdfile
-          //   cosOptions
-        );
-        return {
-          filename: mdfile,
-          newFileName: newFileName,
-          previewUrl,
-          newContent,
-        };
-      })
-    );
-    console.log(
-      `previewUrl: ${JSON.stringify(infos.map((info) => info.previewUrl))}`
-    );
+    // const infos = await Promise.all(
+    //   mdfiles.map(async (mdfile) => {
+    //     const { newFileName, previewUrl, newContent } = await replaceMdImages(
+    //       mdfile
+    //       //   cosOptions
+    //     );
+    //     return {
+    //       filename: mdfile,
+    //       newFileName: newFileName,
+    //       previewUrl,
+    //       newContent,
+    //     };
+    //   })
+    // );
+    // console.log(
+    //   `previewUrl: ${JSON.stringify(infos.map((info) => info.previewUrl))}`
+    // );
     // if (infos.length > 0) {
     //   const result = uploadArtifact(infos);
     //   console.log(`result: ${JSON.stringify(result)}`);
