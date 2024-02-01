@@ -1,7 +1,7 @@
 const fs = require("fs");
 const getMarkdownUrls = require("gh-md-urls");
-// const fetch = require("node-fetch");
-// const { upload, initClient } = require("./cos");
+const fetch = require("node-fetch");
+const { upload, initClient } = require("./cos");
 
 const readFile = (path) => fs.readFileSync(path, "utf8");
 
@@ -14,25 +14,25 @@ const getImages = (content) => {
   return images;
 };
 
-// const uploadImagesToCos = async (images, cosOptions = {}) => {
-// //   initClient(cosOptions);
-//   const replaceInfos = await Promise.all(
-//     images.map(async (item) => {
-//       const res = await fetch(item.url);
-//       const fileName = item.url.split("/").reverse()[0];
-//       if (!fileName) throw new Error("Error: " + item.url);
-//       if (res.headers.get("content-type").startsWith("image/")) {
-//         const buffer = await res.arrayBuffer();
-//         // const url = await upload(
-//         //   { buffer: Buffer.from(buffer), fileName },
-//         //   cosOptions
-//         // );
-//         return { oldVal: item.url, newVal: url };
-//       }
-//     })
-//   );
-//   return replaceInfos;
-// };
+const uploadImagesToCos = async (images, cosOptions = {}) => {
+  //   initClient(cosOptions);
+  const replaceInfos = await Promise.all(
+    images.map(async (item) => {
+      const res = await fetch(item.url);
+      const fileName = item.url.split("/").reverse()[0];
+      if (!fileName) throw new Error("Error: " + item.url);
+      if (res.headers.get("content-type").startsWith("image/")) {
+        const buffer = await res.arrayBuffer();
+        const url = await upload(
+          { buffer: Buffer.from(buffer), fileName },
+          cosOptions
+        );
+        return { oldVal: item.url, newVal: url };
+      }
+    })
+  );
+  return replaceInfos;
+};
 
 const replaceMarkdownImageUrls = (content, replaceInfos) => {
   replaceInfos.forEach(({ oldVal, newVal }) => {
@@ -42,6 +42,9 @@ const replaceMarkdownImageUrls = (content, replaceInfos) => {
 };
 
 const replaceMdImages = async (fileName, cosOptions = {}) => {
+  ![image](
+    "https://github.com/pypestream/frontend/assets/103273897/516dbbf3-606a-4ced-9ede-bc6ff79ce00b"
+  );
   const content = readFile(fileName);
   const images = getImages(content);
   console.log("IMAGES: ", JSON.stringify(images, undefined, 2));

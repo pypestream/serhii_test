@@ -61,7 +61,8 @@ const run = async () => {
 
     const res = await octokit.request(
       //   "GET /repos/{owner}/{repo}/commits/{ref}",
-      "GET /repos/{owner}/{repo}/releases/{release_id}",
+      //   "GET /repos/{owner}/{repo}/releases/{release_id}",
+      "GET /repos/{owner}/{repo}/releases/{release_id}/assets",
       {
         owner: repo.owner,
         repo: repo.repo,
