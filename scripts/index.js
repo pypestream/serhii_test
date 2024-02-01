@@ -52,6 +52,13 @@ const run = async () => {
     const repo = github.context.repo;
     console.log(`repo: ${JSON.stringify(repo)}`);
     console.log(`sha: ${github.context.sha}`);
+
+    console.log(
+      "%crelease.body------------------->",
+      "color: green; font-size: larger; font-weight: bold",
+      release.body
+    );
+
     const res = await octokit.request(
       //   "GET /repos/{owner}/{repo}/commits/{ref}",
       "GET /repos/{owner}/{repo}/releases/{release_id}",
