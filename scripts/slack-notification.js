@@ -62,13 +62,19 @@ async function sendReleaseNotification({
     .filter((block) => block.type === "image")
     .map((block) => ({ url: block.image_url, name: block.alt_text }));
 
-  images.forEach(({ url, name }) => {
-    cloudinary.uploader
-      .upload(url, { public_id: name })
-      .then((result) => {
-        console.log("result------------------->", result.url);
-      })
-      .catch((error) => console.error(JSON.stringify(error)));
+  Promise.all(
+    images.forEach(({ url, name }) => {
+      new Promise((resolve, reject) => {
+        cloudinary.uploader
+          .upload(url, { public_id: name })
+          .then((result) => {
+            resolve(result);
+          })
+          .catch((error) => reject(error));
+      });
+    })
+  ).then((results) => {
+    console.log("RESULTS: ", results);
   });
 
   console.log("IMAGES_URLs: ", images);
