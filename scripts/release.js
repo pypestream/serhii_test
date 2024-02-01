@@ -46,9 +46,9 @@ async function run() {
       }
     );
 
-    console.log("%cRELEASE:", JSON.stringify(release, null, 2));
+    console.log("RELEASE:", JSON.stringify(release, null, 2));
 
-    console.log("%cassets list: ", JSON.stringify(data, null, 2));
+    console.log("assets list: ", JSON.stringify(data, null, 2));
 
     // const isPreRelease = release.prerelease;
     // const webhooks = isPreRelease
