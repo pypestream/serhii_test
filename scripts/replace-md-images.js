@@ -1,7 +1,7 @@
 const fs = require("fs");
 const getMarkdownUrls = require("gh-md-urls");
 const fetch = require("node-fetch");
-const { upload, initClient } = require("./cos");
+// const { upload, initClient } = require("./cos");
 
 const readFile = (path) => fs.readFileSync(path, "utf8");
 
@@ -23,10 +23,10 @@ const uploadImagesToCos = async (images, cosOptions = {}) => {
       if (!fileName) throw new Error("Error: " + item.url);
       if (res.headers.get("content-type").startsWith("image/")) {
         const buffer = await res.arrayBuffer();
-        const url = await upload(
-          { buffer: Buffer.from(buffer), fileName },
-          cosOptions
-        );
+        // const url = await upload(
+        //   { buffer: Buffer.from(buffer), fileName },
+        //   cosOptions
+        // );
         return { oldVal: item.url, newVal: url };
       }
     })
