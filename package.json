@@ -4,7 +4,8 @@
   "description": "added some readme info",
   "main": "index.js",
   "scripts": {
-    "release:send-notification": "node ./scripts/release.js"
+    "release:send-notification": "node ./scripts/release.js",
+    "release:test": "node ./scripts/index.js"
   },
   "dependencies": {
     "@actions/core": "^1.10.1",
@@ -16,7 +17,8 @@
     "@slack/web-api": "^6.7.1",
     "@types/jest": "^27.4.1",
     "axios": "^0.26.1",
-    "cloudinary": "^2.0.0"
+    "cloudinary": "^2.0.0",
+    "gh-md-urls": "^1.1.1"
   },
   "devDependencies": {
     "@slack/webhook": "^7.0.2",
