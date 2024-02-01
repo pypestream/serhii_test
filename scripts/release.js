@@ -2,8 +2,9 @@
 const core = require("@actions/core");
 const github = require("@actions/github");
 const { markdownToBlocks } = require("@instantish/mack");
-const { v2 } = require("cloudinary");
+
 const { IncomingWebhook } = require("@slack/webhook");
+const { v2 } = require("cloudinary");
 
 const cloudinary = v2;
 
@@ -12,6 +13,8 @@ cloudinary.config({
   api_key: "473343293529714",
   api_secret: "bE-_OiM7f8DbVP9adlVgiWQx97Q",
 });
+
+// https://github.com/pypestream/frontend/assets/103273897/516dbbf3-606a-4ced-9ede-bc6ff79ce00b"
 
 const preReleaseWebhook = process.env.SLACK_PRERELEASE_WEBHOOK_URL;
 const releaseDevWebhook = process.env.SLACK_RELEASE_DEV_WEBHOOK_URL;
@@ -33,6 +36,12 @@ async function run() {
     if (eventName !== "release") {
       core.setFailed("Action should only be run on release publish events");
     }
+
+    console.log(
+      "%crelease------------------->",
+      "color: green; font-size: larger; font-weight: bold",
+      release
+    );
 
     const isPreRelease = release.prerelease;
     const webhooks = isPreRelease

@@ -22,7 +22,15 @@ jobs:
         run: yarn install --immutable
 
       - name: Send Slack Notification
-        # run: yarn run release:send-notification
+        run: yarn run release:send-notification
+
+        env:
+          SLACK_PRERELEASE_WEBHOOK_URL: ${{ secrets.SLACK_PRERELEASE_WEBHOOK_URL }}
+          SLACK_RELEASE_DEV_WEBHOOK_URL: ${{ secrets.SLACK_RELEASE_DEV_WEBHOOK_URL }}
+          SLACK_RELEASE_WEBHOOK_URL: ${{ secrets.SLACK_RELEASE_WEBHOOK_URL }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Upload files to Cloudinary
         run: yarn run release:test
         env:
           SLACK_PRERELEASE_WEBHOOK_URL: ${{ secrets.SLACK_PRERELEASE_WEBHOOK_URL }}
