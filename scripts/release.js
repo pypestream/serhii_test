@@ -6,7 +6,7 @@ const github = require("@actions/github");
 // import type { ReleaseReleasedEvent } from "@octokit/webhooks-types";
 const sendReleaseNotification =
   require("./slack-notification").sendReleaseNotification;
-const { Octokit } = require("@octokit/core");
+// const { Octokit } = require("@octokit/core");
 
 const preReleaseWebhook = process.env.SLACK_PRERELEASE_WEBHOOK_URL;
 const releaseDevWebhook = process.env.SLACK_RELEASE_DEV_WEBHOOK_URL;
@@ -30,39 +30,39 @@ async function run() {
       core.setFailed("Action should only be run on release publish events");
     }
 
-    const octokit = new Octokit({
-      auth: npmToken,
-    });
-
-    const data = await octokit.request(
-      `GET /repos/${repo.owner}/${repo.repo}/releases/${release.id}/assets`,
-      {
-        owner: repo.owner,
-        repo: repo.repo,
-        release_id: release.id,
-        headers: {
-          "X-GitHub-Api-Version": "2022-11-28",
-        },
-      }
-    );
-
-    console.log("RELEASE:", JSON.stringify(release, null, 2));
-
-    console.log("assets list: ", JSON.stringify(data, null, 2));
-
-    // const isPreRelease = release.prerelease;
-    // const webhooks = isPreRelease
-    //   ? [preReleaseWebhook]
-    //   : [releaseWebhook, releaseDevWebhook];
-
-    // webhooks.forEach(async (webhook) => {
-    //   await sendReleaseNotification({
-    //     webhook,
-    //     release,
-    //     repo,
-    //     isPreRelease,
-    //   });
+    // const octokit = new Octokit({
+    //   auth: npmToken,
     // });
+
+    // const data = await octokit.request(
+    //   `GET /repos/${repo.owner}/${repo.repo}/releases/${release.id}/assets`,
+    //   {
+    //     owner: repo.owner,
+    //     repo: repo.repo,
+    //     release_id: release.id,
+    //     headers: {
+    //       "X-GitHub-Api-Version": "2022-11-28",
+    //     },
+    //   }
+    // );
+
+    // console.log("RELEASE:", JSON.stringify(release, null, 2));
+
+    // console.log("assets list: ", JSON.stringify(data, null, 2));
+
+    const isPreRelease = release.prerelease;
+    const webhooks = isPreRelease
+      ? [preReleaseWebhook]
+      : [releaseWebhook, releaseDevWebhook];
+
+    webhooks.forEach(async (webhook) => {
+      await sendReleaseNotification({
+        webhook,
+        release,
+        repo,
+        isPreRelease,
+      });
+    });
 
     console.log("Sent notification");
   } catch (error) {

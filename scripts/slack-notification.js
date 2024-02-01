@@ -49,6 +49,12 @@ async function sendReleaseNotification({
   const owner = repo.owner.charAt(0).toUpperCase() + repo.owner.slice(1);
   const repositoryName = repo.repo.charAt(0).toUpperCase() + repo.repo.slice(1);
 
+  const images = bodyBlocks
+    .filter((block) => block.type === "image")
+    .map((block) => block.image_url);
+
+  console.log("IMAGES_URLs: ", images);
+
   const message = {
     timeout: 0,
     text: "Pypestream Frontend v1.12.0-rc.1 Released (candidate)!",
@@ -69,6 +75,7 @@ async function sendReleaseNotification({
           text: "Check out the latest release notes <https://github.com/pypestream/frontend/releases/tag/v1.12.0-rc.1|on Github> to see what's changed!",
         },
       },
+      ...bodyBlocks,
       // { type: "header", text: { type: "plain_text", text: "Release Notes" } },
       // {
       //   type: "header",
@@ -199,16 +206,16 @@ async function sendReleaseNotification({
       //     "https://github.com/pypestream/grizzly/assets/103273897/206a5a12-f781-4dd3-8e8e-5fc9dae995e1",
       //   alt_text: "TEST_IMAGE",
       // },
-      {
-        type: "image",
-        image_url:
-          "https://github.com/pypestream/serhii_test/assets/103273897/6374261a-c677-4f4d-a412-849bc7e8d6f4",
-        alt_text: "TEST_IMAGE",
-      },
+      // {
+      //   type: "image",
+      //   image_url:
+      //     "https://github.com/pypestream/serhii_test/assets/103273897/6374261a-c677-4f4d-a412-849bc7e8d6f4",
+      //   alt_text: "TEST_IMAGE",
+      // },
     ],
   };
 
-  console.log("MESSAGE: ", JSON.stringify(message, null, 2));
+  // console.log("MESSAGE: ", JSON.stringify(message, null, 2));
 
   await slackWebhook.send(message);
 }
