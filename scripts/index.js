@@ -2,38 +2,36 @@ const http = require("https");
 const fs = require("fs");
 
 function getRemoteFile(file, url) {
-  let localFile = fs.createWriteStream(file);
-  const request = http.get(url, function (response) {
-    var cur = 0;
+  try {
+    const localFile = fs.createWriteStream(file);
+    const request = http.get(url, function (response) {
+      response.pipe(localFile);
 
-    response.on("data", function (chunk) {
-      cur += chunk.length;
+      // after download completed close filestream
+      localFile.on("finish", () => {
+        localFile.close();
+        console.log("Download Completed");
+      });
+
+      console.log(
+        "%cfile------------------->",
+        "color: green; font-size: larger; font-weight: bold",
+        localFile
+      );
     });
-
-    response.on("end", function () {
-      console.log("Download complete");
-    });
-
-    response.pipe(localFile);
 
     console.log(
-      "%cresponse------------------->",
+      "%crequest------------------->",
       "color: green; font-size: larger; font-weight: bold",
-      response
+      request
     );
-  });
-
-  console.log(
-    "%crequest------------------->",
-    "color: green; font-size: larger; font-weight: bold",
-    request
-  );
-
-  console.log(
-    "%clocalFile------------------->",
-    "color: green; font-size: larger; font-weight: bold",
-    localFile
-  );
+  } catch (error) {
+    console.log(
+      "%cerror------------------->",
+      "color: green; font-size: larger; font-weight: bold",
+      error
+    );
+  }
 }
 
 const item = {
