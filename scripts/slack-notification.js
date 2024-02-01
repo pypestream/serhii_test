@@ -193,12 +193,12 @@ async function sendReleaseNotification({
       //     "https://github.com/pypestream/grizzly/assets/103273897/206a5a12-f781-4dd3-8e8e-5fc9dae995e1",
       //   alt_text: "some_alt",
       // },
-      {
-        type: "image",
-        image_url:
-          "https://github.com/pypestream/grizzly/assets/103273897/206a5a12-f781-4dd3-8e8e-5fc9dae995e1",
-        alt_text: "TEST_IMAGE",
-      },
+      // {
+      //   type: "image",
+      //   image_url:
+      //     "https://github.com/pypestream/grizzly/assets/103273897/206a5a12-f781-4dd3-8e8e-5fc9dae995e1",
+      //   alt_text: "TEST_IMAGE",
+      // },
       {
         type: "image",
         image_url:
