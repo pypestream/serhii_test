@@ -63,7 +63,7 @@ async function sendReleaseNotification({
     .map((block) => ({ url: block.image_url, name: block.alt_text }));
 
   Promise.all(
-    images.forEach(({ url, name }) => {
+    images.map(({ url, name }) => {
       new Promise((resolve, reject) => {
         cloudinary.uploader
           .upload(url, { public_id: name })
