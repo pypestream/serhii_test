@@ -26,6 +26,11 @@ const { replaceMdImages } = require("./replace-md-images");
 const run = async () => {
   //   const token = core.getInput("token"); // githubtoken
   const token = process.env.NPM_TOKEN;
+  console.log(
+    "%ctoken------------------->",
+    "color: green; font-size: larger; font-weight: bold",
+    token
+  );
   //   const secretId = core.getInput("secretId");
   //   const secretKey = core.getInput("secretKey");
   //   const bucket = core.getInput("bucket");
