@@ -1,12 +1,79 @@
-// https://github.com/tryfabric/notify-slack-on-release/blob/main/src/send-release-notification.ts
-const core = require("@actions/core");
-const github = require("@actions/github");
-const fs = require("fs");
-const { markdownToBlocks } = require("@instantish/mack");
-const { IncomingWebhook } = require("@slack/webhook");
-const { v2 } = require("cloudinary");
+import * as core from "@actions/core";
+import * as github from "@actions/github";
+import { IncomingWebhook } from "@slack/webhook";
+import { markdownToBlocks } from "@instantish/mack";
+import { v2 as cloudinary } from "cloudinary";
+import * as fs from "fs";
 
-const cloudinary = v2;
+/**
+ * TODOs & Questions:
+ * - Make sure we add checks to NOT send out the release notification if release error occurs!
+ * - Error handling? throwing an error could blow up the automated release if we aren't careful!
+ * - Decide if every release type is treated exactly the same (ie. "loudness" based on SEMVEr)
+ * - Option to have us send out a custom release notification (ex. something manually triggered)?
+ * - Figure out how we handle screenshots / assets
+ * - Markdown TLDR blurb?
+ * - Replace hard-coded version references with dynamic value
+ * - Update URLs to new `pypestream.dev` domains
+ * - Update prerelease / release tasks to fire off custom Slack webhook
+ * - Update script to be a function that passes in the webhook URL to use (ie. one script for both
+ *   release types)
+ * - In Slack App settings, confirm that the `SLACK_PRERELEASE_WEBHOOK_URL` and
+ *   `SLACK_RELEASE_WEBHOOK_URL` webhook URLs (ENV vars) point to the correct channels. If not,
+ *    update our Github & Vercel env vars to use the correct webhook urls.
+ * - Move webhook env vars to shared vars file pulled into both release scripts
+ * - Make sure the release script sends a notification out to the channel(s) we expect
+ *   (ie. just the engineering channel? any others? if so, need a different env var per channel to
+ *   send out notification)
+ * - Do we want to call these Slack release notifications something else other than "Pypestream FE"?
+ */
+
+interface Repository {
+  repo: string;
+  owner: string;
+}
+
+interface Release {
+  assets: unknown[];
+  assets_url: string;
+  author: Author;
+  body: string;
+  created_at: string;
+  draft: boolean;
+  html_url: string;
+  id: number;
+  name: string;
+  node_id: string;
+  prerelease: boolean;
+  published_at: string;
+  tag_name: string;
+  tarball_url: string;
+  target_commitish: string;
+  upload_url: string;
+  url: string;
+  zipball_url: string;
+}
+
+interface Author {
+  avatar_url: string;
+  events_url: string;
+  followers_url: string;
+  following_url: string;
+  gists_url: string;
+  gravatar_id: string;
+  html_url: string;
+  id: number;
+  login: string;
+  node_id: string;
+  organizations_url: string;
+  received_events_url: string;
+  repos_url: string;
+  site_admin: boolean;
+  starred_url: string;
+  subscriptions_url: string;
+  type: string;
+  url: string;
+}
 
 const preReleaseWebhook = process.env.SLACK_PRERELEASE_WEBHOOK_URL;
 const releaseDevWebhook = process.env.SLACK_RELEASE_DEV_WEBHOOK_URL;
@@ -22,8 +89,8 @@ cloudinary.config({
   api_secret: cloudinaryApiSecret,
 });
 
-const downloadImage = async (url) => {
-  return await fetch(url, {
+const downloadImage = async (path: string) => {
+  return await fetch(path, {
     headers: {
       Authorization: `token ${npmToken}`,
       Accept: "application/vnd.github.v3.raw",
@@ -51,42 +118,54 @@ const downloadImage = async (url) => {
     });
 };
 
-async function run() {
+async function run(): Promise<void> {
   try {
     const {
       context: {
         eventName,
         repo,
-        payload: { release },
+        payload: { release: _release },
       },
     } = github;
+
+    const repository: Repository = repo;
+    const release: Release = _release;
 
     if (eventName !== "release") {
       core.setFailed("Action should only be run on release publish events");
     }
 
-    const isPreRelease = release.prerelease;
+    const isPreRelease = (release as Release).prerelease;
     const webhooks = isPreRelease
       ? [preReleaseWebhook]
       : [releaseWebhook, releaseDevWebhook];
 
+    // transform markdown to slack blocks
     const bodyBlocks = await markdownToBlocks(release.body);
-    const owner = repo.owner.charAt(0).toUpperCase() + repo.owner.slice(1);
+    const owner =
+      repository.owner.charAt(0).toUpperCase() + repository.owner.slice(1);
     const repositoryName =
-      repo.repo.charAt(0).toUpperCase() + repo.repo.slice(1);
+      repository.repo.charAt(0).toUpperCase() + repository.repo.slice(1);
 
-    const body = await Promise.all(
+    const body = (await Promise.all(
       bodyBlocks.map(async (block) => {
         if (block.type !== "image") {
           return new Promise((resolve) => resolve(block));
         }
 
+        // download image to local file
         const filename = await downloadImage(block.image_url);
 
+        if (!filename) {
+          throw new Error("No filename found");
+        }
+
         return new Promise((resolve, reject) => {
+          // upload image to cloudinary
           cloudinary.uploader
             .upload(filename, { public_id: block.alt_text })
             .then((result) => {
+              // delete local file
               fs.unlink(filename, (err) => {
                 if (err) {
                   reject(err);
@@ -108,7 +187,7 @@ async function run() {
             });
         });
       })
-    );
+    )) as typeof bodyBlocks;
 
     const message = {
       text: `${owner} ${repositoryName} ${release.tag_name} Released ${

@@ -22,7 +22,8 @@ jobs:
         run: yarn install --immutable
 
       - name: Send Slack Notification
-        run: yarn run release:send-notification
+        # run: yarn run release:send-notification
+        run: yarn run release:test
 
         env:
           SLACK_PRERELEASE_WEBHOOK_URL: ${{ secrets.SLACK_PRERELEASE_WEBHOOK_URL }}
