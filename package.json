@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "release:send-notification": "node ./scripts/release.js",
-    "release:test": "tsx ./scripts/slack-notification.js"
+    "release:test": "tsx ./scripts/slack-notification.ts"
   },
   "dependencies": {
     "@actions/core": "^1.10.1",
@@ -20,7 +20,8 @@
     "cloudinary": "^2.0.0",
     "gh-md-urls": "^1.1.1",
     "http": "^0.0.1-security",
-    "https": "^1.0.0"
+    "https": "^1.0.0",
+    "tsx": "^4.7.0"
   },
   "devDependencies": {
     "@slack/webhook": "^7.0.2",
