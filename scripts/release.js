@@ -87,7 +87,13 @@ async function run() {
           cloudinary.uploader
             .upload(filename, { public_id: block.alt_text })
             .then((result) => {
-              fs.unlink(filename);
+              fs.unlink(filename, (err) => {
+                if (err) {
+                  reject(err);
+                } else {
+                  console.log("File is deleted.");
+                }
+              });
               resolve({
                 type: "image",
                 image_url: result.url,
