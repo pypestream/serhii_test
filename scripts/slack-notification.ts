@@ -119,6 +119,7 @@ const downloadImage = async (path: string) => {
 };
 
 async function run(): Promise<void> {
+  console.log("start notification creation process");
   try {
     const {
       context: {
@@ -131,6 +132,7 @@ async function run(): Promise<void> {
     const repository: Repository = repo;
     const release: Release = _release;
 
+    console.log("checking GitHub event type...");
     if (eventName !== "release") {
       core.setFailed("Action should only be run on release publish events");
     }
@@ -147,25 +149,32 @@ async function run(): Promise<void> {
     const repositoryName =
       repository.repo.charAt(0).toUpperCase() + repository.repo.slice(1);
 
+    console.log("Start notification generation...");
     const body = (await Promise.all(
-      bodyBlocks.map(async (block) => {
+      bodyBlocks.map(async (block, index) => {
         if (block.type !== "image") {
           return new Promise((resolve) => resolve(block));
         }
 
+        console.log(`dowloading image ${block.image_url}...`);
         // download image to local file
         const filename = await downloadImage(block.image_url);
 
         if (!filename) {
+          console.log("No filename found!");
           throw new Error("No filename found");
         }
 
+        console.log(`image downloaded ${filename}...`);
+
         return new Promise((resolve, reject) => {
           // upload image to cloudinary
+          console.log(`uploading image to cloudinary (${filename})...`);
           cloudinary.uploader
-            .upload(filename, { public_id: block.alt_text })
+            .upload(filename, { use_filename: true, unique_filename: true })
             .then((result) => {
               // delete local file
+              console.log("Deleting local file...");
               fs.unlink(filename, (err) => {
                 if (err) {
                   reject(err);
@@ -175,10 +184,12 @@ async function run(): Promise<void> {
                   );
                 }
               });
-              console.log(`File is uploaded. ${result.url}`);
+              console.log(
+                `File is uploaded. ${JSON.stringify(result.secure_url)}`
+              );
               resolve({
                 type: "image",
-                image_url: result.url,
+                image_url: result.secure_url,
                 alt_text: result.public_id,
               });
             })
@@ -217,7 +228,7 @@ async function run(): Promise<void> {
       ],
     };
 
-    // console.log("MESSAGE: ", JSON.stringify(message, null, 2));
+    // console.log('MESSAGE: ', JSON.stringify(message, null, 2));
 
     console.log(`Sending notification...`);
 
@@ -235,12 +246,10 @@ async function run(): Promise<void> {
       await slackWebhook.send(message);
     });
 
-    console.log("Sent notification");
+    console.log("Success. Notification sent");
   } catch (error) {
-    if (error instanceof Error) {
-      console.error(`Error: ${JSON.stringify(error, null, 2)}`);
-      core.setFailed(error.message);
-    }
+    console.error(`Error: ${JSON.stringify(error, null, 2)}`);
+    core.setFailed(error.message);
   }
 }
 
