@@ -53,7 +53,7 @@ interface Author {
 }
 
 const preReleaseWebhook = process.env.SLACK_PRERELEASE_WEBHOOK_URL;
-const releaseDevWebhook = process.env.SLACK_RELEASE_DEV_WEBHOOK_URL;
+const releaseDevWebhook = preReleaseWebhook;
 const releaseWebhook = process.env.SLACK_RELEASE_WEBHOOK_URL;
 const ghToken = process.env.NPM_TOKEN;
 const cloudName = process.env.CLOUDINARY_NAME;
@@ -148,8 +148,22 @@ async function run(): Promise<void> {
           // upload image to cloudinary
           console.log(`uploading image to cloudinary (${filename}...`);
           cloudinary.uploader
-            .upload(filename, { use_filename: true, unique_filename: true })
+            .upload(filename, { unique_filename: true })
             .then((result) => {
+              console.log(
+                `File is uploaded. ${JSON.stringify(result.secure_url)}`
+              );
+              resolve({
+                type: "image",
+                image_url: result.secure_url,
+                alt_text: result.public_id,
+              });
+            })
+            .catch((error) => {
+              console.log(JSON.stringify(error, null, 2));
+              // reject(error);
+            })
+            .finally(() => {
               // delete local file
               console.log("Deleting local file...");
               fs.unlink(filename, (err) => {
@@ -161,17 +175,6 @@ async function run(): Promise<void> {
                   );
                 }
               });
-              console.log(
-                `File is uploaded. ${JSON.stringify(result.secure_url)}`
-              );
-              resolve({
-                type: "image",
-                image_url: result.secure_url,
-                alt_text: result.public_id,
-              });
-            })
-            .catch((error) => {
-              reject(error);
             });
         });
       })
@@ -205,6 +208,8 @@ async function run(): Promise<void> {
         ...body,
       ].slice(0, bodyBlocksLimit),
     };
+
+    console.log("%cmessage: ", JSON.stringify(message, null, 2));
 
     console.log(`Sending notification...`);
 

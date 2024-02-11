@@ -15,12 +15,13 @@
     "@slack/types": "^2.4.0",
     "@slack/web-api": "^6.7.1",
     "@types/jest": "^27.4.1",
-    "axios": "^0.26.1",
+    "axios": "^1.6.7",
     "cloudinary": "^2.0.0",
     "gh-md-urls": "^1.1.1",
     "http": "^0.0.1-security",
     "https": "^1.0.0",
-    "tsx": "^4.7.0"
+    "tsx": "^4.7.0",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@slack/webhook": "^7.0.2",
