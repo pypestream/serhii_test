@@ -53,7 +53,7 @@ interface Author {
 }
 
 const preReleaseWebhook = process.env.SLACK_PRERELEASE_WEBHOOK_URL;
-const releaseDevWebhook = preReleaseWebhook;
+const releaseDevWebhook = process.env.SLACK_RELEASE_DEV_WEBHOOK_URL;
 const releaseWebhook = process.env.SLACK_RELEASE_WEBHOOK_URL;
 const ghToken = process.env.NPM_TOKEN;
 const cloudName = process.env.CLOUDINARY_NAME;
