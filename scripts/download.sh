@@ -1,5 +1,5 @@
-curl -H 'Authorization: token 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' \
+curl -H 'Authorization: token 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' \
   -H 'Accept: application/vnd.github.v3.raw' \
-  -O '074f02db-c6d6-4c9c-b09a-1e5cbcf6836b.png' \
-  -L https://raw.githubusercontent.com/davaynamore/sandbox/assets/15155397/074f02db-c6d6-4c9c-b09a-1e5cbcf6836b
+  -O \
+  -L https://github.com/davaynamore/sandbox/files/14234392/MESSAGE.txt
 

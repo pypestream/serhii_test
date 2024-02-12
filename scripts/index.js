@@ -1,43 +1,11 @@
 const cloudinary = require("cloudinary").v2;
-const fs = require("fs");
-const { uuid } = require("uuidv4");
 const IncomingWebhook = require("@slack/webhook").IncomingWebhook;
-const https = require("https");
 
 cloudinary.config({
   cloud_name: "dvnmehqko",
   api_key: "473343293529714",
   api_secret: "bE-_OiM7f8DbVP9adlVgiWQx97Q",
 });
-
-// const downloadImage = async (path) => {
-//   const options = {
-//     hostname: "github.com",
-//     path: "/davaynamore/sandbox/assets/15155397/074f02db-c6d6-4c9c-b09a-1e5cbcf6836b",
-//     headers: {
-//       Authorization: "token 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",
-//       Accept: "application/vnd.github.v3.raw",
-//     },
-//   };
-
-//   const req = https.get(options, function (res) {
-//     console.log(
-//       "%cres------------------->",
-//       "color: green; font-size: larger; font-weight: bold",
-//       res
-//     );
-//     const chunks = [];
-
-//     res.on("data", function (chunk) {
-//       chunks.push(chunk);
-//     });
-
-//     res.on("end", function () {
-//       const body = Buffer.concat(chunks);
-//       console.log("Message: ", body.toString());
-//     });
-//   });
-// };
 
 const downloadImage = async (path) => {
   return await fetch(path, {
@@ -47,21 +15,10 @@ const downloadImage = async (path) => {
     },
   })
     .then(async (response) => {
-      // get rid of extra url params in response
-      const { url } = response;
-      const urlObj = new URL(url);
-      urlObj.search = "";
-      const urlResult = urlObj.toString();
-
-      // grab just the filename
-      const filename = `${uuid()}.jpg`;
-
       const blob = await response.blob();
       const arrayBuffer = await blob.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      fs.writeFileSync(filename, buffer);
-
-      return filename;
+      const base64buffer = Buffer.from(arrayBuffer).toString("base64");
+      return `data:image/jpeg;base64,${base64buffer}`;
     })
     .catch((error) => {
       console.log("Download Error: ", error);
@@ -72,10 +29,10 @@ const uploadImage = async (filename) => {
   return await cloudinary.uploader
     .upload(filename, { use_filename: true, unique_filename: true })
     .then((result) => {
-      console.log(`File is uploaded. ${JSON.stringify(result.url)}`);
+      console.log(`File is uploaded. ${JSON.stringify(result.secure_url)}`);
       const imageBlock = {
         type: "image",
-        image_url: result.url,
+        image_url: result.secure_url,
         alt_text: result.public_id,
       };
       console.log(imageBlock);
@@ -83,17 +40,6 @@ const uploadImage = async (filename) => {
     })
     .catch((error) => {
       console.log("Upload Error: ", error);
-    })
-    .finally(() => {
-      // delete local file
-      // console.log("Deleting local file...");
-      // fs.unlink(filename, (err) => {
-      //   if (err) {
-      //     console.log("Delete file Error: ", err);
-      //   } else {
-      //     console.log(`File is deleted. ${filename}`);
-      //   }
-      // });
     });
 };
 
@@ -113,17 +59,17 @@ const createSlackMessage = (body, prerelease = false) => {
           emoji: true,
         },
       },
-      // body,
+      body,
     ],
   };
 };
 
 const sendToSlack = (message, prerelease = false) => {
   const preReleaseWebhook =
-    "https://hooks.slack.com/services/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";
+    "https://hooks.slack.com/services/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";
   const releaseDevWebhook = preReleaseWebhook;
   const releaseWebhook =
-    "https://hooks.slack.com/services/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";
+    "https://hooks.slack.com/services/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";
   const webhooks = prerelease
     ? [preReleaseWebhook]
     : [releaseWebhook, releaseDevWebhook];
@@ -144,19 +90,24 @@ const sendToSlack = (message, prerelease = false) => {
 
 async function run() {
   const imageUrl =
-    "https://github.com/davaynamore/sandbox/assets/15155397/9320d1bb-8e2d-4c1f-b7c3-c251b29a1ab4";
-  // const filename = await downloadImage(imageUrl);
+    "https://images.pexels.com/photos/2071882/pexels-photo-2071882.jpeg?cs=srgb&dl=pexels-wojciech-kumpicki-2071882.jpg&fm=jpg";
+  const filename = await downloadImage(imageUrl);
 
-  // if (!filename) {
-  //   console.log("No filename");
-  //   return;
-  // }
+  if (!filename) {
+    console.log("No filename");
+    return;
+  }
 
-  // const result = await uploadImage(filename);
+  const result = await uploadImage(filename);
 
-  const prerelease = true;
+  if (!result) {
+    console.log("File didn't uploaded");
+    return;
+  }
 
-  const message = createSlackMessage({}, prerelease);
+  const prerelease = false;
+
+  const message = createSlackMessage(result, prerelease);
   sendToSlack(message, prerelease);
 }
 

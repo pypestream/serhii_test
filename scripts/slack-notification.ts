@@ -1,4 +1,3 @@
-import * as fs from "fs";
 import * as core from "@actions/core";
 import * as github from "@actions/github";
 import { IncomingWebhook } from "@slack/webhook";
@@ -53,7 +52,7 @@ interface Author {
 }
 
 const preReleaseWebhook = process.env.SLACK_PRERELEASE_WEBHOOK_URL;
-const releaseDevWebhook = process.env.SLACK_RELEASE_DEV_WEBHOOK_URL;
+const releaseDevWebhook = preReleaseWebhook;
 const releaseWebhook = process.env.SLACK_RELEASE_WEBHOOK_URL;
 const ghToken = process.env.NPM_TOKEN;
 const cloudName = process.env.CLOUDINARY_NAME;
@@ -66,7 +65,7 @@ cloudinary.config({
   api_secret: cloudinaryApiSecret,
 });
 
-const downloadImage = async (path: string) => {
+const getBase64BufferImage = async (path: string) => {
   return await fetch(path, {
     headers: {
       Authorization: `token ${ghToken}`,
@@ -74,21 +73,10 @@ const downloadImage = async (path: string) => {
     },
   })
     .then(async (response) => {
-      // get rid of extra url params in response
-      const { url } = response;
-      const urlObj = new URL(url);
-      urlObj.search = "";
-      const urlResult = urlObj.toString();
-
-      // grab just the filename
-      const filename = urlResult.substring(urlResult.lastIndexOf("/") + 1);
-
       const blob = await response.blob();
       const arrayBuffer = await blob.arrayBuffer();
-      const buffer = Buffer.from(arrayBuffer);
-      fs.writeFileSync(filename, buffer);
-
-      return filename;
+      const base64buffer = Buffer.from(arrayBuffer).toString("base64");
+      return `data:image/jpeg;base64,${base64buffer}`;
     })
     .catch((error) => {
       console.log(error);
@@ -132,23 +120,25 @@ async function run(): Promise<void> {
         if (block.type !== "image") {
           return new Promise((resolve) => resolve(block));
         }
-
+        console.log("block: ", block);
         console.log(`dowloading image ${block.image_url}...`);
         // download image to local file
-        const filename = await downloadImage(block.image_url);
+        const base64buffer = await getBase64BufferImage(block.image_url);
 
-        if (!filename) {
+        if (!base64buffer) {
           console.log("No filename found!");
           throw new Error("No filename found");
         }
 
-        console.log(`image downloaded ${filename}...`);
+        console.log(`image downloaded ${base64buffer}...`);
 
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
           // upload image to cloudinary
-          console.log(`uploading image to cloudinary (${filename}...`);
+          console.log(`uploading image to cloudinary (${base64buffer}...`);
           cloudinary.uploader
-            .upload(filename, { unique_filename: true })
+            .upload(base64buffer, {
+              unique_filename: true,
+            })
             .then((result) => {
               console.log(
                 `File is uploaded. ${JSON.stringify(result.secure_url)}`
@@ -161,19 +151,12 @@ async function run(): Promise<void> {
             })
             .catch((error) => {
               console.log(JSON.stringify(error, null, 2));
-              // reject(error);
-            })
-            .finally(() => {
-              // delete local file
-              console.log("Deleting local file...");
-              fs.unlink(filename, (err) => {
-                if (err) {
-                  reject(err);
-                } else {
-                  console.log(
-                    `File is deleted. ${filename}(${block.image_url})`
-                  );
-                }
+              resolve({
+                type: "section",
+                text: {
+                  type: "mrkdwn",
+                  text: `See image here: ${block.image_url}`,
+                },
               });
             });
         });
@@ -226,8 +209,6 @@ async function run(): Promise<void> {
 
       await slackWebhook.send(message);
     });
-
-    console.log("Success. Notification sent");
   } catch (error) {
     console.error(`Error: ${JSON.stringify(error, null, 2)}`);
     core.setFailed(error.message);
